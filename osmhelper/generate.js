@@ -8,9 +8,9 @@ const fs = require("fs-extra");
 
 async function doIt() {
   await db.query(`
-        CREATE INDEX IF NOT EXISTS dpwh_geom_index ON import.dpwh USING gist ((wkb_geometry::geography));
-        CREATE INDEX IF NOT EXISTS bridge_linestring_geom_index ON import.bridge_linestring USING gist ((geometry::geometry));
-        create unique index IF NOT EXISTS dpwh_bridge_id_uindex on import.dpwh (bridge_id);
+        CREATE INDEX IF NOT EXISTS dpwh_geom_index ON dpwh USING gist ((wkb_geometry::geography));
+        CREATE INDEX IF NOT EXISTS bridge_linestring_geom_index ON bridge_linestring USING gist ((geometry::geometry));
+        create unique index IF NOT EXISTS dpwh_bridge_id_uindex on dpwh (bridge_id);
     `);
 
   const rows = (
@@ -30,8 +30,8 @@ async function doIt() {
                            ST_Envelope(
                                    ST_Buffer(d.wkb_geometry, 0.002)
                                ))     as "envelope"
-            FROM import.dpwh d
-                     LEFT JOIN import.bridge_linestring h
+            FROM dpwh d
+                     LEFT JOIN bridge_linestring h
                                ON ST_DWithin(d.wkb_geometry, ST_Transform(h.geometry, 4326), 200, false)
             where d.wkb_geometry is not null
             GROUP BY d.ogc_fid
