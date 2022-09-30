@@ -1,5 +1,5 @@
 # osmhelper
-To get better insight into the data, I wrote osmhelper.
+To get better insight into the data, I wrote [osmhelper](https://github.com/coostendorp/osmhelper.git).
 I wrote it in a very short time, please let me know if its broken
 For now i only tested it on Ubuntu 22.10
 
