@@ -1,0 +1,63 @@
+tables:
+  bridge_linestring:
+      type: linestring
+      filters:
+        reject:
+          bridge: [  none ]
+          highway: [ none ]
+      columns:
+        - name: osm_id
+          type: id
+        - name: geometry
+          type: geometry
+        - name: highway
+          key: highway
+          type: string
+        - name: man_made
+          key: man_made
+          type: string
+        - name: bridge
+          key: bridge
+          type: string
+        - name: ref
+          key: ref
+          type: string
+        - name: name
+          key: name
+          type: string
+        - name: material
+          key: material
+          type: string
+        - name: is_in
+          key: is_in
+          type: string
+        - name: source
+          key: source
+          type: string
+        - name: designation
+          key: designation
+          type: string
+        - name: bridge_structure
+          key: bridge:structure
+          type: string
+        - name: official_name
+          key: official_name
+          type: string
+        - name: length
+          key: length
+          type: integer
+        - name: width
+          key: width
+          type: integer
+        - name: max_weight
+          key: max_weight
+          type: integer
+        - name: lanes
+          key: lanes
+          type: integer
+
+      mapping:
+        bridge: [__any__]
+        man_made: [bridge]
+
+

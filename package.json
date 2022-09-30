@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "dotenv": "^16.0.2",
+    "fs-extra": "^10.1.0",
+    "osmhelper": "^0.0.1"
+  },
+  "scripts": {
+    "osmhelper:down": "node node_modules/osmhelper/index.js down",
+    "osmhelper:start": "node node_modules/osmhelper/index.js start",
+    "osmhelper:download": "node node_modules/osmhelper/index.js download",
+    "osmhelper:imposm": "node node_modules/osmhelper/index.js imposm",
+    "import:dpwh": "cd osmhelper && ./import_dpwh.sh",
+    "process": "cd osmhelper && node generate.js"
+  }
+}

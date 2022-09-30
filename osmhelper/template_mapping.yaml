@@ -1,0 +1,63 @@
+tables:
+  admin:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - name: type
+        type: mapping_value
+      - key: admin_level
+        name: admin_level
+        type: integer
+    mapping:
+      boundary:
+        - administrative
+    type: polygon
+  places:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - name: type
+        type: mapping_value
+      - args:
+          values:
+            - locality
+            - suburb
+            - hamlet
+            - village
+            - town
+            - city
+            - county
+            - region
+            - state
+        name: z_order
+        type: enumerate
+      - key: population
+        name: population
+        type: integer
+      - key: admin_level
+        name: admin_level
+        type: integer
+    mapping:
+      place:
+        - country
+        - state
+        - region
+        - county
+        - city
+        - town
+        - village
+        - hamlet
+        - suburb
+        - locality
+    type: point
+
