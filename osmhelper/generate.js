@@ -9,7 +9,7 @@ const fs = require("fs-extra");
 async function doIt() {
   await db.query(`
         CREATE INDEX IF NOT EXISTS dpwh_geom_index ON dpwh USING gist ((wkb_geometry::geography));
-        CREATE INDEX IF NOT EXISTS bridge_linestring_geom_index ON bridge_linestring USING gist ((geometry::geometry));
+        CREATE INDEX IF NOT EXISTS bridge_linestring_geom_index ON bridge_linestring USING gist ((geometry::geography));
         create unique index IF NOT EXISTS dpwh_bridge_id_uindex on dpwh (bridge_id);
     `);
 
@@ -32,10 +32,9 @@ async function doIt() {
                                ))     as "envelope"
             FROM dpwh d
                      LEFT JOIN bridge_linestring h
-                               ON ST_DWithin(d.wkb_geometry, ST_Transform(h.geometry, 4326), 200, false)
+                               ON ST_DWithin(d.wkb_geometry, h.geometry, 200, false)
             where d.wkb_geometry is not null
             GROUP BY d.ogc_fid
-            limit ${process.env["GENERATE_ROWCOUNT"]}
             ;
         `)
   ).rows;
@@ -115,4 +114,10 @@ async function main() {
   await doIt();
 }
 
-main();
+
+main()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error);
+        process.exit(1);
+    });
