@@ -9,9 +9,9 @@ const fs = require("fs-extra");
 async function doIt() {
   await db.query(`
         CREATE INDEX IF NOT EXISTS dpwh_geom_index ON dpwh USING gist ((wkb_geometry::geography));
-        CREATE INDEX IF NOT EXISTS bridge_linestring_geom_index ON bridge_linestring USING gist ((geometry::geography));
         create unique index IF NOT EXISTS dpwh_bridge_id_uindex on dpwh (bridge_id);
-    `);
+        CREATE INDEX IF NOT EXISTS bridge_linestring_geom_index ON bridge_linestring USING gist ((geometry::geography));
+  `);
 
   const rows = (
     await db.query(`

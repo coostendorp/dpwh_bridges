@@ -10,6 +10,7 @@
     "osmhelper:download": "node node_modules/osmhelper/index.js download",
     "osmhelper:imposm": "node node_modules/osmhelper/index.js imposm",
     "import:dpwh": "cd osmhelper && ./import_dpwh.sh",
-    "generate": "cd osmhelper && node generate.js"
+    "generate": "cd osmhelper && node generate.js",
+    "clean_input_data": "cd osmhelper && node clean_input_data.js"
   }
 }
