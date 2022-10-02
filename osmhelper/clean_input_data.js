@@ -60,6 +60,7 @@ async function doIt() {
                    d.actual_yr      as start_date,
                    d.deo            as operator,
                    d.wkb_geometry   as geometry,
+                   ST_AsGeoJSON(d.wkb_geometry) as location,
                    ST_AsGeoJSON(
                            ST_Envelope(
                                    ST_Buffer(d.wkb_geometry, 0.002)
@@ -71,7 +72,7 @@ async function doIt() {
         `)
     ).rows;
 
-    let tsv = Object.keys(rows[0]).slice(0, -2).join('\t').concat('\tjosm')
+    let tsv = Object.keys(rows[0]).slice(0, -3).join('\t').concat('\tjosmLink\tidLink')
 
 
     for (const row of rows) {
@@ -98,7 +99,8 @@ async function doIt() {
 
         await db.query(query, [row])
 
-        row["josm"] = createJosmLink(row.bbox)
+        row["josmLink"] = createJosmLink(row.bbox)
+        row["idLink"] = createIdLink(JSON.parse(row.location))
 
 
         tsv = tsv
@@ -124,12 +126,22 @@ async function doIt() {
                     row["material"],
                     row["start_date"],
                     row["operator"],
-                    row["josm"]
+                    row["josmLink"],
+                    row["idLink"]
                 ].join("\t"),
             )
         // console.log(tsv)
     }
     await fs.writeFileSync("dpwh.tsv", tsv);
+}
+
+function createIdLink(geoJson){
+    idZoomlevel = 17
+
+    const url = new URL(`https://www.openstreetmap.org/edit#map=${idZoomlevel}/${geoJson.coordinates[1]}/${geoJson.coordinates[0]}`);
+
+
+    return url.toString();
 }
 
 function createJosmLink(bbox) {
